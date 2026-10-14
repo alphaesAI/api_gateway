@@ -13,6 +13,17 @@ class CDSRequest(BaseModel):
     context: Dict[str, Any]
     prefetch: Optional[Dict[str, Any]] = None
 
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "hook": "order-sign",
+                "hookInstance": "6c171633-76b7-4e7e-b25a-f81b17b3cec0",
+                "context": {},
+                "prefetch": {},
+            }
+        }
+    }
+
 class CDSFeedback(BaseModel):
     hookInstance: str
     outcome: Optional[str] = None

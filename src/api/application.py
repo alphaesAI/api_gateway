@@ -52,7 +52,7 @@ async def lifespan(app: FastAPI):
     global INSTANCE
 
     # Instantiate Application using the CONFIG environment variable path
-    config_path = os.environ.get("CONFIG", "config.yml")
+    config_path = os.environ.get("CONFIG")
     INSTANCE = Application(config_path)
 
     config = INSTANCE.config

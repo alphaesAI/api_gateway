@@ -1,40 +1,20 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request
 
 app = FastAPI(title="Payer A Backend System")
 
-# 1. Payer Discovery Endpoint (Required by CDS Hooks spec)
-@app.get("/cds-services")
-def discover_services():
-    """
-    Returns the list of services supported by Payer A.
-    When the Gateway or EHR queries this, Payer A publishes its catalog.
-    """
-    return {
-        "services": [
-            {
-                "id": "crd-mri-spine-order-sign",
-                "hook": "order-sign",
-                "title": "CRD MRI Spine Order Sign",
-                "description": "Evaluates coverage requirements and prior authorization for MRI Spine."
-            }
-        ]
-    }
-
-# 2. Payer Execution Endpoint for Specific Service
-@app.post("/cds-services/crd-mri-spine-order-sign")
-async def evaluate_mri_order(request: Request):
+@app.post("/cds-services/{service_id}")
+async def handle_payer_service(service_id: str, request: Request):
     body = await request.json()
-    print("[Payer A Server] Evaluating incoming clinical order context...")
+    print(f"[Payer A Server] Processing request for service ID: {service_id}")
     
-    # Real-world logic would parse FHIR resources from request['context'] or request['prefetch'] here
-    
+    # Payer A can look up rules dynamically for whatever service_id the Gateway forwards
     return {
         "cards": [
             {
-                "summary": "Payer A: Prior Authorization Required",
-                "detail": "Coverage rules require documentation of 6 weeks of physical therapy before MRI approval.",
-                "indicator": "warning",
-                "source": {"label": "Payer A Clinical Rules Engine"}
+                "summary": f"Payer A: Evaluated {service_id}",
+                "detail": "Backend rules executed successfully.",
+                "indicator": "info",
+                "source": {"label": "Payer A Engine"}
             }
         ]
     }
