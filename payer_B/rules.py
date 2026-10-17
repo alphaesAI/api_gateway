@@ -1,5 +1,8 @@
 import json
+import logging
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 
 class Rule:
@@ -17,13 +20,17 @@ class RuleSet:
         self.rules = rules
 
     def match(self, system: str, code: str) -> Rule | None:
-        return self.rules.get((system, code))
+        rule = self.rules.get((system, code))
+        logger.info("Rule lookup %s|%s matched=%s", system, code, rule is not None)
+        return rule
 
 
 def load(path: Path) -> RuleSet:
+    logger.info("Loading rules %s", path)
     payload = json.loads(path.read_text())
     smart_launch_url = payload.get("smartLaunchUrl")
     if not smart_launch_url:
+        logger.error("Rules file is missing smartLaunchUrl: %s", path)
         raise ValueError(f"{path} is missing smartLaunchUrl")
 
     rules: dict[tuple[str, str], Rule] = {}
@@ -31,6 +38,7 @@ def load(path: Path) -> RuleSet:
         system = item.get("system")
         code = item.get("code")
         if not system or not code or "require_pa" not in item:
+            logger.error("Invalid rule entry: %s", item)
             raise ValueError(f"Rule is missing system, code, or require_pa: {item}")
         rules[(system, code)] = Rule(
             system=system,
@@ -39,4 +47,5 @@ def load(path: Path) -> RuleSet:
             require_pa=bool(item["require_pa"]),
             document_needed=item.get("document_needed"),
         )
+    logger.info("Rules loaded count=%s", len(rules))
     return RuleSet(smart_launch_url, rules)

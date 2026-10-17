@@ -1,6 +1,11 @@
+import logging
+
 import requests
 
+logger = logging.getLogger(__name__)
+
 def get_auth_token(url, client_id, client_secret):
+  logger.info("Requesting auth token from %s", url)
 
   # Encode the client ID and client secret
   headers = {
@@ -13,6 +18,7 @@ def get_auth_token(url, client_id, client_secret):
   }
 
   response = requests.post(url, data=body, headers=headers)
+  logger.info("Auth token response status=%s", response.status_code)
   return response.json()
 
 

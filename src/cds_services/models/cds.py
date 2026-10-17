@@ -14,15 +14,38 @@ class CDSRequest(BaseModel):
     prefetch: Optional[Dict[str, Any]] = None
 
     model_config = {
-        "json_schema_extra": {
-            "example": {
-                "hook": "order-sign",
-                "hookInstance": "6c171633-76b7-4e7e-b25a-f81b17b3cec0",
-                "context": {},
-                "prefetch": {},
+    "json_schema_extra": {
+        "example": {
+            "hook": "order-sign",
+            "hookInstance": "6c171633-76b7-4e7e-b25a-f81b17b3cec0",
+            "context": {
+                "patientId": "Patient/1001",
+                "draftOrders": {
+                    "resourceType": "Bundle",
+                    "type": "collection",
+                    "entry": [
+                        {
+                            "resource": {
+                                "resourceType": "ServiceRequest",
+                                "status": "draft",
+                                "intent": "order",
+                                "subject": {"reference": "Patient/1001"},
+                                "code": {
+                                    "coding": [
+                                        {
+                                            "system": "http://www.ama-assn.org/go/cpt",
+                                            "code": "72148"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                }
             }
         }
     }
+}
 
 class CDSFeedback(BaseModel):
     hookInstance: str

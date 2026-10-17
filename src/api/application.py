@@ -1,10 +1,15 @@
 from fastapi import FastAPI, APIRouter
 from contextlib import asynccontextmanager
 import inspect
+import logging
 import os
 
 from src.api import routers
 from src.app.base import Application
+
+logger = logging.getLogger(__name__)
+# logging.getLogger().setLevel(logging.INFO)
+logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 
 INSTANCE = None
 
@@ -25,6 +30,7 @@ def api_routers() -> dict:
     for name, module in inspect.getmembers(routers, inspect.ismodule):
         if hasattr(module, "router") and isinstance(module.router, APIRouter):
             available[name] = module.router
+    logger.info("Discovered routers: %s", list(available))
     return available
 
 def enabled(config, name):
@@ -38,7 +44,9 @@ def enabled(config, name):
     Returns:
         bool: True if enabled, False otherwise
     '''
-    return config.get("routers", {}).get(name, True)
+    is_enabled = config.get("routers", {}).get(name, True)
+    logger.info("Router %s enabled=%s", name, is_enabled)
+    return is_enabled
 
 
 @asynccontextmanager
@@ -50,9 +58,10 @@ async def lifespan(app: FastAPI):
         app: FastAPI application
     '''
     global INSTANCE
+    logging.getLogger().setLevel(logging.INFO)
 
-    # Instantiate Application using the CONFIG environment variable path
     config_path = os.environ.get("CONFIG")
+    logger.info("Loading config from %s", config_path)
     INSTANCE = Application(config_path)
 
     config = INSTANCE.config
@@ -61,14 +70,15 @@ async def lifespan(app: FastAPI):
     for name, router in routers.items():
         if enabled(config, name):
             app.include_router(router)
+            logger.info("Included router %s", name)
 
-    print("application is starting")
+    logger.info("Application is starting")
     
     yield
     
     if INSTANCE:
         await INSTANCE.close()
-    print("application is stopped")
+    logger.info("Application is stopped")
 
 
 def create():

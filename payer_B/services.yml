@@ -7,7 +7,7 @@ cds_services:
     hook: "order-sign"
     title: "Prescribe Medication"
     description: "Evaluate coverage requirements for medication prescription"
-    backend_url: "https://127.0.0.1:8002/cds-services/prescribe-medication"
+    backend_url: "http://127.0.0.1:8002/cds-services/prescribe-medication"
     
 
   - id: "crd-mri-spine-order-sign"
