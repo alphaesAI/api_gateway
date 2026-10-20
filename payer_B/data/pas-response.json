@@ -1,0 +1,62 @@
+{
+    "approved": {
+      "resourceType": "Bundle",
+      "type": "searchset",
+      "entry": [
+        {
+          "resource": {
+            "resourceType": "ClaimResponse",
+            "id": "cr-1001-approved",
+            "status": "active",
+            "use": "preauthorization",
+            "outcome": "complete",
+            "disposition": "Prior Authorization Approved",
+            "patient": {
+              "reference": "Patient/1001",
+              "display": "Ava Nguyen"
+            }
+          }
+        }
+      ]
+    },
+    "denied": {
+      "resourceType": "Bundle",
+      "type": "searchset",
+      "entry": [
+        {
+          "resource": {
+            "resourceType": "ClaimResponse",
+            "id": "cr-1001-denied",
+            "status": "active",
+            "use": "preauthorization",
+            "outcome": "error",
+            "disposition": "Prior Authorization Denied: Insufficient clinical documentation supporting medical necessity.",
+            "patient": {
+              "reference": "Patient/1001",
+              "display": "Ava Nguyen"
+            }
+          }
+        }
+      ]
+    },
+    "pending": {
+      "resourceType": "Bundle",
+      "type": "searchset",
+      "entry": [
+        {
+          "resource": {
+            "resourceType": "ClaimResponse",
+            "id": "cr-1001-pending",
+            "status": "active",
+            "use": "preauthorization",
+            "outcome": "queued",
+            "disposition": "Prior Authorization Pending Review by Medical Director",
+            "patient": {
+              "reference": "Patient/1001",
+              "display": "Ava Nguyen"
+            }
+          }
+        }
+      ]
+    }
+  }

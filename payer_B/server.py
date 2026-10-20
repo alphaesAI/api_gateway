@@ -18,6 +18,8 @@ rules = load_rules(DATA / "rules.json")
 
 QUESTIONNAIRE_DATA_PATH = DATA / "questionnaire.json"
 
+PAS_RESPONSES_PATH = DATA / "pas-response.json"
+
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     logging.getLogger().setLevel(logging.INFO)
@@ -79,3 +81,18 @@ async def handle_questionnaire_response(body: dict):
             "diagnostics": f"QuestionnaireResponse {resp_id} successfully received and processed by Payer B."
         }]
     }
+
+
+def load_pas_response() -> dict:
+    if not PAS_RESPONSES_PATH.exists():
+        raise HTTPException(status_code=500, detail="PAS responses dataset not found.")
+    return json.loads(PAS_RESPONSES_PATH.read_text())
+
+@app.post("/Claim/$submit")
+async def handle_claim_submit(body: dict):
+    logger.info("Payer B request: Claim/$submit")
+    pas_response = load_pas_response()
+    
+    # Logic to select response based on input payload can be added here later.
+    # Defaulting to "approved" for now.
+    return pas_response.get("approved", pas_response["pending"])
