@@ -1,0 +1,137 @@
+{
+    "resourceType": "Bundle",
+    "type": "collection",
+    "entry": [
+      {
+        "resource": {
+          "id": "payer-b",
+          "name": "Payer B",
+          "resourceType": "Organization",
+          "identifier": [
+            {
+              "system": "urn:ietf:rfc:3986",
+              "value": "urn:payer:payer-b"
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "id": "1001",
+          "name": [
+            {
+              "family": "Nguyen",
+              "given": [
+                "Ava"
+              ],
+              "use": "official"
+            }
+          ],
+          "gender": "female",
+          "birthDate": "1984-03-12",
+          "resourceType": "Patient"
+        }
+      },
+      {
+        "resource": {
+          "id": "cov-1001",
+          "status": "active",
+          "payor": [
+            {
+              "reference": "Organization/payer-b"
+            }
+          ],
+          "beneficiary": {
+            "reference": "Patient/1001"
+          },
+          "subscriberId": "SUB-1001",
+          "resourceType": "Coverage"
+        }
+      },
+      {
+        "resource": {
+          "id": "lumbar-mri-master-q",
+          "url": "http://payerb.org/fhir/Questionnaire/lumbar-mri-master",
+          "status": "active",
+          "title": "Lumbar Spine MRI Prior Authorization Questionnaire",
+          "subjectType": ["Patient"],
+          "resourceType": "Questionnaire",
+          "item": [
+            {
+              "linkId": "conservative_therapy_group",
+              "text": "Conservative Therapy Evaluation",
+              "type": "group",
+              "required": true,
+              "item": [
+                {
+                  "linkId": "had_conservative_therapy",
+                  "text": "Has the patient completed at least 6 weeks of conservative therapy?",
+                  "type": "boolean",
+                  "required": true
+                }
+              ]
+            },
+            {
+              "linkId": "red_flags_group",
+              "text": "Red Flag Symptoms",
+              "type": "group",
+              "required": true,
+              "item": [
+                {
+                  "linkId": "progressive_neurological_deficit",
+                  "text": "Does the patient exhibit progressive neurological deficits?",
+                  "type": "boolean",
+                  "required": true
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "resource": {
+          "resourceType": "QuestionnaireResponse",
+          "id": "qr-1001-72148",
+          "status": "in-progress",
+          "questionnaire": "http://payerb.org/fhir/Questionnaire/lumbar-mri-master",
+          "subject": {
+            "reference": "Patient/1001",
+            "display": "Ava Nguyen"
+          },
+          "authored": "2026-10-18T17:14:00Z",
+          "item": [
+            {
+              "linkId": "conservative_therapy_group",
+              "text": "Conservative Therapy Evaluation",
+              "item": [
+                {
+                  "linkId": "had_conservative_therapy",
+                  "text": "Has the patient completed at least 6 weeks of conservative therapy?",
+                  "answer": [
+                    {
+                      "valueBoolean": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "linkId": "red_flags_group",
+              "text": "Red Flag Symptoms",
+              "item": [
+                {
+                  "linkId": "progressive_neurological_deficit",
+                  "text": "Does the patient exhibit progressive neurological deficits?",
+                  "answer": [
+                    {
+                      "valueBoolean": false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }

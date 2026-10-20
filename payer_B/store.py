@@ -6,9 +6,16 @@ logger = logging.getLogger(__name__)
 
 
 class Repository:
-    def __init__(self, patients: dict[str, dict], coverages: dict[str, list[dict]], payer_name: str):
+    def __init__(
+        self,
+        patients: dict[str, dict],
+        coverages: dict[str, list[dict]],
+        responses: dict[str, dict],
+        payer_name: str,
+    ):
         self.patients = patients
         self.coverages = coverages
+        self.responses = responses
         self.payer_name = payer_name
 
     def patient(self, patient_id: str) -> dict | None:
@@ -21,6 +28,15 @@ class Repository:
         logger.info("Coverage lookup patient_id=%s count=%s", patient_id, len(found))
         return found
 
+    def save_response(self, response_id: str, payload: dict) -> None:
+        self.responses[response_id] = payload
+        logger.info("Saved QuestionnaireResponse id=%s", response_id)
+
+    def get_response(self, response_id: str) -> dict | None:
+        found = self.responses.get(response_id)
+        logger.info("QuestionnaireResponse lookup id=%s found=%s", response_id, found is not None)
+        return found
+
 
 def load(path: Path) -> Repository:
     logger.info("Loading FHIR repository %s", path)
@@ -31,6 +47,7 @@ def load(path: Path) -> Repository:
 
     patients: dict[str, dict] = {}
     coverages: dict[str, list[dict]] = {}
+    responses: dict[str, dict] = {}
     payer_name = "Payer"
 
     for entry in bundle.get("entry", []):
@@ -45,9 +62,11 @@ def load(path: Path) -> Repository:
             patient_id = _patient_id(resource.get("beneficiary", {}).get("reference"))
             if patient_id:
                 coverages.setdefault(patient_id, []).append(resource)
+        elif resource_type == "QuestionnaireResponse" and resource_id:
+            responses[resource_id] = resource
 
-    logger.info("FHIR repository loaded payer=%s patients=%s", payer_name, list(patients))
-    return Repository(patients, coverages, payer_name)
+    logger.info("FHIR repository loaded payer=%s patients=%s responses=%s", payer_name, list(patients), list(responses))
+    return Repository(patients, coverages, responses, payer_name)
 
 
 def _patient_id(reference: str | None) -> str | None:

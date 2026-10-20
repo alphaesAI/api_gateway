@@ -1,0 +1,43 @@
+{
+    "resourceType": "QuestionnaireResponse",
+    "id": "qr-1001-72148",
+    "status": "completed",
+    "questionnaire": "http://payerb.org/fhir/Questionnaire/lumbar-mri-master",
+    "subject": {
+      "reference": "Patient/1001",
+      "display": "Ava Nguyen"
+    },
+    "authored": "2026-10-18T17:14:00Z",
+    "item": [
+      {
+        "linkId": "conservative_therapy_group",
+        "text": "Conservative Therapy Evaluation",
+        "item": [
+          {
+            "linkId": "had_conservative_therapy",
+            "text": "Has the patient completed at least 6 weeks of conservative therapy?",
+            "answer": [
+              {
+                "valueBoolean": true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "linkId": "red_flags_group",
+        "text": "Red Flag Symptoms",
+        "item": [
+          {
+            "linkId": "progressive_neurological_deficit",
+            "text": "Does the patient exhibit progressive neurological deficits?",
+            "answer": [
+              {
+                "valueBoolean": false
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }

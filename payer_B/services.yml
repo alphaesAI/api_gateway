@@ -2,6 +2,8 @@ routers:
   home: true
   cds: true
 
+BASE_URL: "http://localhost:8002"
+
 cds_services:
   - id: "prescribe-medication"
     hook: "order-sign"
