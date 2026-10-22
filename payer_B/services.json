@@ -1,0 +1,22 @@
+{
+    "services": [
+      {
+        "id": "prescribe-medication",
+        "hook": "order-sign",
+        "title": "Prescribe Medication",
+        "description": "Evaluate coverage requirements for medication prescription",
+        "extension": {
+          "davinci-crd.version": ["2.0"]
+        }
+      },
+      {
+        "id": "crd-mri-spine-order-sign",
+        "hook": "order-sign",
+        "title": "CRD MRI Spine Order Sign",
+        "description": "Evaluate coverage requirements for MRI Spine order",
+        "extension": {
+          "davinci-crd.version": ["2.0"]
+        }
+      }
+    ]
+  }

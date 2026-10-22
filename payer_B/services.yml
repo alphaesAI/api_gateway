@@ -9,11 +9,11 @@ cds_services:
     hook: "order-sign"
     title: "Prescribe Medication"
     description: "Evaluate coverage requirements for medication prescription"
-    backend_url: "http://127.0.0.1:8002/cds-services/prescribe-medication"
+    extension: "davinci-crd.version"
     
 
   - id: "crd-mri-spine-order-sign"
     hook: "order-sign"
     title: "CRD MRI Spine Order Sign"
     description: "Evaluate coverage requirements for MRI Spine order"
-    backend_url: "http://127.0.0.1:8002/cds-services/crd-mri-spine-order-sign"
+    extension: "davinci-crd.version"

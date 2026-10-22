@@ -16,7 +16,7 @@ def get_cds_services():
     """
     app_instance = application.get()
     config = app_instance.config if app_instance else {}
-    services = config.get("cds_services", [])
+    services = config.get("services", []) or config.get("cds_services", [])
     logger.info("Listing %s CDS services", len(services))
     return {"services": services}
 
