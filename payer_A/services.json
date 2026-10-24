@@ -1,0 +1,48 @@
+{
+  "services": [
+    {
+      "id": "prescribe-medication",
+      "hook": "order-sign",
+      "title": "Prescribe Medication",
+      "description": "Evaluate coverage requirements for medication prescription",
+      "prefetch": {
+        "patient": "Patient/{{context.patientId}}"
+      },
+      "extension": {
+        "davinci-crd.version": ["2.0"],
+        "davinci-crd.configuration-options": [
+          {
+            "code": "coverage-info",
+            "name": "Coverage Information",
+            "type": "boolean",
+            "label": "Coverage Information",
+            "description": "Enable or disable coverage requirement cards.",
+            "default": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "crd-mri-spine-order-sign",
+      "hook": "order-sign",
+      "title": "CRD MRI Spine Order Sign",
+      "description": "Evaluate coverage requirements for MRI Spine order",
+      "prefetch": {
+        "patient": "Patient/{{context.patientId}}"
+      },
+      "extension": {
+        "davinci-crd.version": ["2.0"],
+        "davinci-crd.configuration-options": [
+          {
+            "code": "coverage-info",
+            "name": "Coverage Information",
+            "type": "boolean",
+            "label": "Coverage Information",
+            "description": "Enable or disable coverage requirement cards.",
+            "default": true
+          }
+        ]
+      }
+    }
+  ]
+}

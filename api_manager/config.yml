@@ -1,0 +1,4 @@
+payers:
+  - id: "payer-A"
+    name: "Payer A Healthcare System"
+    backend_url: "http://127.0.0.1:8001"

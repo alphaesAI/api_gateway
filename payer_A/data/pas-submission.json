@@ -1,0 +1,61 @@
+{
+    "resourceType": "Parameters",
+    "id": "PASSubmitInputExample",
+    "meta": {
+      "profile": [
+        "http://hl7.org/fhir/us/davinci-pas/StructureDefinition/profile-parameters-in"
+      ]
+    },
+    "parameter": [
+      {
+        "name": "claim",
+        "resource": {
+          "resourceType": "Claim",
+          "id": "claim-lumbar-mri",
+          "status": "active",
+          "use": "preauthorization",
+          "type": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional"
+              }
+            ]
+          },
+          "patient": {
+            "reference": "Patient/1001",
+            "display": "Ava Nguyen"
+          },
+          "insurer": {
+            "reference": "Organization/payer-b"
+          },
+          "provider": {
+            "reference": "Practitioner/doc-1"
+          },
+          "insurance": [
+            {
+              "sequence": 1,
+              "focal": true,
+              "coverage": {
+                "reference": "Coverage/cov-1001"
+              }
+            }
+          ],
+          "item": [
+            {
+              "sequence": 1,
+              "productOrService": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "306442007",
+                    "display": "Magnetic resonance imaging of lumbar spine"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }

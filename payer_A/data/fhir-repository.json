@@ -1,0 +1,81 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Organization",
+        "id": "payer-b",
+        "name": "Payer B",
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:payer:payer-b"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "1001",
+        "name": [
+          {
+            "use": "official",
+            "family": "Nguyen",
+            "given": ["Ava"]
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1984-03-12"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Coverage",
+        "id": "cov-1001",
+        "status": "active",
+        "beneficiary": {
+          "reference": "Patient/1001"
+        },
+        "payor": [
+          {
+            "reference": "Organization/payer-b"
+          }
+        ],
+        "subscriberId": "SUB-1001"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "1002",
+        "name": [
+          {
+            "use": "official",
+            "family": "Okeke",
+            "given": ["Malik"]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1971-11-02"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Coverage",
+        "id": "cov-1002",
+        "status": "cancelled",
+        "beneficiary": {
+          "reference": "Patient/1002"
+        },
+        "payor": [
+          {
+            "reference": "Organization/payer-b"
+          }
+        ],
+        "subscriberId": "SUB-1002"
+      }
+    }
+  ]
+}

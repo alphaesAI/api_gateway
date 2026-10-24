@@ -1,0 +1,33 @@
+{
+  "smartLaunchUrl": "http://127.0.0.1:8002/smart/launch",
+  "rules": [
+    {
+      "system": "http://www.ama-assn.org/go/cpt",
+      "code": "72148",
+      "display": "MRI lumbar spine without contrast",
+      "require_pa": true,
+      "document_needed": "Clinical notes documenting failed conservative therapy"
+    },
+    {
+      "system": "http://www.ama-assn.org/go/cpt",
+      "code": "99213",
+      "display": "Office visit, established patient, low complexity",
+      "require_pa": false,
+      "document_needed": null
+    },
+    {
+      "system": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+      "code": "E0601",
+      "display": "Continuous positive airway pressure device",
+      "require_pa": true,
+      "document_needed": "Sleep study report"
+    },
+    {
+      "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+      "code": "1049502",
+      "display": "lisinopril 10 MG Oral Tablet",
+      "require_pa": false,
+      "document_needed": null
+    }
+  ]
+}
