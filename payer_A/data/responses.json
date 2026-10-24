@@ -1,0 +1,52 @@
+{
+  "crd-mri-spine-order-sign": {
+    "cards": [
+      {
+        "summary": "Prior Authorization Required",
+        "detail": "MRI lumbar spine (CPT 72148) requires documentation of conservative therapy for at least 6 weeks.",
+        "indicator": "warning",
+        "source": {
+          "label": "Payer A Healthcare System",
+          "url": "https://www.payerahealth.com/guidelines/mri-spine",
+          "topic": {
+            "system": "http://terminology.hl7.org/CodeSystem/cdshooks-card-type",
+            "code": "coverage-info",
+            "display": "Coverage Information"
+          }
+        },
+        "links": [
+          {
+            "label": "View Clinical Guidelines Portal",
+            "url": "https://www.payerahealth.com/guidelines/mri-spine",
+            "type": "absolute"
+          }
+        ]
+      }
+    ]
+  },
+  "default": {
+    "cards": [
+      {
+        "summary": "Coverage Review Completed",
+        "detail": "Service request evaluated successfully against payer rules.",
+        "indicator": "info",
+        "source": {
+          "label": "Payer A Healthcare System",
+          "url": "https://www.payerahealth.com/guidelines",
+          "topic": {
+            "system": "http://terminology.hl7.org/CodeSystem/cdshooks-card-type",
+            "code": "coverage-info",
+            "display": "Coverage Information"
+          }
+        },
+        "links": [
+          {
+            "label": "View Payer Portal",
+            "url": "https://www.payerahealth.com/guidelines",
+            "type": "absolute"
+          }
+        ]
+      }
+    ]
+  }
+}
