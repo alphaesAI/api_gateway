@@ -2,6 +2,7 @@
   "crd-mri-spine-order-sign": {
     "cards": [
       {
+        "uuid": "placeholder-uuid",
         "summary": "Prior Authorization Required",
         "detail": "MRI lumbar spine (CPT 72148) requires documentation of conservative therapy for at least 6 weeks.",
         "indicator": "warning",
@@ -16,17 +17,73 @@
         },
         "links": [
           {
-            "label": "View Clinical Guidelines Portal",
-            "url": "https://www.payerahealth.com/guidelines/mri-spine",
-            "type": "absolute"
+            "label": "Complete documentation (DTR)",
+            "url": "https://www.payerahealth.com/dtr/launch",
+            "type": "smart"
           }
         ]
+      },
+      {
+        "uuid": "placeholder-uuid",
+        "summary": "Clinical Instructions",
+        "detail": "Ensure patient chart includes physical therapy notes prior to final submission.",
+        "indicator": "info",
+        "source": {
+          "label": "Payer A Healthcare System",
+          "url": "https://www.payerahealth.com/instructions",
+          "topic": {
+            "system": "http://terminology.hl7.org/CodeSystem/cdshooks-card-type",
+            "code": "clinical-reminder",
+            "display": "Clinical Reminder"
+          }
+        }
+      }
+    ],
+    "systemActions": [
+      {
+        "type": "update",
+        "description": "Attach coverage evaluation results to draft service request",
+        "resource": {
+          "resourceType": "ServiceRequest",
+          "id": "mri-spine-request",
+          "status": "draft",
+          "intent": "order",
+          "subject": {
+            "reference": "Patient/1001"
+          },
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-coverage-information",
+              "extension": [
+                {
+                  "url": "coverage",
+                  "valueReference": {
+                    "reference": "Coverage/cov-1001"
+                  }
+                },
+                {
+                  "url": "covered",
+                  "valueCode": "conditional"
+                },
+                {
+                  "url": "date",
+                  "valueDate": "2026-10-24"
+                },
+                {
+                  "url": "coverage-assertion-id",
+                  "valueString": "assertion-crd-1001"
+                }
+              ]
+            }
+          ]
+        }
       }
     ]
   },
   "default": {
     "cards": [
       {
+        "uuid": "placeholder-uuid",
         "summary": "Coverage Review Completed",
         "detail": "Service request evaluated successfully against payer rules.",
         "indicator": "info",
@@ -46,6 +103,46 @@
             "type": "absolute"
           }
         ]
+      }
+    ],
+    "systemActions": [
+      {
+        "type": "update",
+        "description": "Attach coverage evaluation results",
+        "resource": {
+          "resourceType": "ServiceRequest",
+          "id": "mri-spine-request",
+          "status": "draft",
+          "intent": "order",
+          "subject": {
+            "reference": "Patient/1001"
+          },
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/us/davinci-crd/StructureDefinition/ext-coverage-information",
+              "extension": [
+                {
+                  "url": "coverage",
+                  "valueReference": {
+                    "reference": "Coverage/cov-1001"
+                  }
+                },
+                {
+                  "url": "covered",
+                  "valueCode": "covered"
+                },
+                {
+                  "url": "date",
+                  "valueDate": "2026-10-24"
+                },
+                {
+                  "url": "coverage-assertion-id",
+                  "valueString": "assertion-crd-1001"
+                }
+              ]
+            }
+          ]
+        }
       }
     ]
   }
