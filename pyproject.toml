@@ -8,6 +8,7 @@ dependencies = [
     "authlib>=1.9.1",
     "cryptography>=50.0.2",
     "fastapi>=0.143.0",
+    "fhir-resources>=8.3.0",
     "httpx>=0.28.1",
     "pyjwt>=2.15.1",
     "python-dotenv>=1.2.4",

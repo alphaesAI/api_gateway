@@ -28,7 +28,7 @@ async def post_cds_service(hook_id: str, cds_request: CDSRequest):
     logger.info("CDS request hook_id=%s hook=%s", hook_id, cds_request.hook)
     app_instance = application.get()
     config = app_instance.config if app_instance else {}
-    services = config.get("cds_services", [])
+    services = config.get("services", []) or config.get("cds_services", [])
     service = next((s for s in services if s.get("id") == hook_id), None)
 
     if not service:
@@ -46,21 +46,21 @@ async def post_cds_service(hook_id: str, cds_request: CDSRequest):
     logger.info("CDS response hook_id=%s cards=%s", hook_id, len(response_data.get("cards", [])))
     return JSONResponse(content=response_data)
 
-@router.post("/{hook_id}/feedback")
-async def post_cds_feedback(hook_id: str, cds_feedback: CDSFeedback):
-    """
-    Handle CDS feedback submission.
-    """
-    logger.info("CDS feedback hook_id=%s", hook_id)
-    app_instance = application.get()
-    config = app_instance.config if app_instance else {}
-    services = config.get("cds_services", [])
-    service = next((s for s in services if s.get("id") == hook_id), None)
+# @router.post("/{hook_id}/feedback")
+# async def post_cds_feedback(hook_id: str, cds_feedback: CDSFeedback):
+#     """
+#     Handle CDS feedback submission.
+#     """
+#     logger.info("CDS feedback hook_id=%s", hook_id)
+#     app_instance = application.get()
+#     config = app_instance.config if app_instance else {}
+#     services = config.get("cds_services", [])
+#     service = next((s for s in services if s.get("id") == hook_id), None)
 
-    if not service:
-        logger.warning("CDS service not found for feedback: %s", hook_id)
-        raise HTTPException(status_code=404, detail=f"can not find a cds service with the name: {hook_id}")
+#     if not service:
+#         logger.warning("CDS service not found for feedback: %s", hook_id)
+#         raise HTTPException(status_code=404, detail=f"can not find a cds service with the name: {hook_id}")
 
-    await DecisionEngineConnector.submit_feedback(hook_id, cds_feedback.dict())
-    logger.info("CDS feedback accepted hook_id=%s", hook_id)
-    return JSONResponse(content={"message": "Feedback submitted successfully"})
+#     await DecisionEngineConnector.submit_feedback(hook_id, cds_feedback.dict())
+#     logger.info("CDS feedback accepted hook_id=%s", hook_id)
+#     return JSONResponse(content={"message": "Feedback submitted successfully"})

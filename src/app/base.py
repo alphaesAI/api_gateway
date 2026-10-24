@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 class Application:
     '''
-
+    Base application class for all applications
     '''
 
     @staticmethod
@@ -28,7 +28,17 @@ class Application:
                     content = f.read()
                     if data.endswith('.json'):
                         return json.loads(content)
-                    return yaml.safe_load(content)
+                    
+                    # If it's a YAML file, also look for a companion services.json in the same folder
+                    config_data = yaml.safe_load(content) or {}
+                    base_dir = os.path.dirname(data)
+                    json_path = os.path.join(base_dir, "services.json")
+                    if os.path.exists(json_path):
+                        logger.info("Loading companion service registry %s", json_path)
+                        with open(json_path, 'r', encoding='utf-8') as jf:
+                            json_data = json.load(jf)
+                            config_data.update(json_data)
+                    return config_data
 
             logger.info("Reading config from string content")
             try:
@@ -36,7 +46,6 @@ class Application:
             except json.JSONDecodeError:
                 return yaml.safe_load(data)
 
-        logger.info("Using config object passed in memory")
         return data
 
     def __init__(self, config: str):

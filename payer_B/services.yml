@@ -2,18 +2,4 @@ routers:
   home: true
   cds: true
 
-BASE_URL: "http://localhost:8002"
-
-cds_services:
-  - id: "prescribe-medication"
-    hook: "order-sign"
-    title: "Prescribe Medication"
-    description: "Evaluate coverage requirements for medication prescription"
-    extension: "davinci-crd.version"
-    
-
-  - id: "crd-mri-spine-order-sign"
-    hook: "order-sign"
-    title: "CRD MRI Spine Order Sign"
-    description: "Evaluate coverage requirements for MRI Spine order"
-    extension: "davinci-crd.version"
+BASE_URL: "http://127.0.0.1:8002"

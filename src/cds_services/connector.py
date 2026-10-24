@@ -18,7 +18,7 @@ class DecisionEngineConnector:
             logger.error("Application configuration is not initialized")
             raise HTTPException(status_code=500, detail="Application configuration not initialized.")
 
-        services = app_instance.config.get("cds_services", [])
+        services = app_instance.config.get("services", []) or config.get("cds_services", [])
         service = next((s for s in services if s.get("id") == hook_id), None)
 
         if not service:
